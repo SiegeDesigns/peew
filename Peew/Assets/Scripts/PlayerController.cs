@@ -30,8 +30,7 @@ public class PlayerController : MonoBehaviour {
         float moveVertical = Input.GetAxis("Vertical");
 
         Vector3 movement = new Vector3(moveHorizontal, 0.0f, moveVertical);
-        rb.velocity = movement * speed;
-        Debug.Log(rb.position.x + " " + boundary.xMin + " " + boundary.xMax);
+        rb.velocity = movement * speed;      
         rb.position = new Vector3
         (
             Mathf.Clamp(rb.position.x, boundary.xMin, boundary.xMax),
