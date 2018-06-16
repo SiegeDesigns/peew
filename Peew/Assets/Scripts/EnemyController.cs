@@ -1,74 +1,106 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 
 public class EnemyController : MonoBehaviour
 {
 
-    public Transform target;
+    private Transform target;
+    private Rigidbody rb;
     public Transform myTransform;
+    public float speed;
+    public float minDistance;
 
     float timer = 0.0f;
+    int seconds;
     int amountOfTime = 0;
-    bool firstState = false;
-    bool secondState = false;
-    bool thirdState = false;
+    bool greenState = false;
+    bool changingState = false;
+    bool redState = false;
+    bool changing = false;
     private Animator animator;
+
     // Use this for initialization
     void Start()
     {
         animator = GetComponent<Animator>();
         amountOfTime = Random.Range(2, 10);
-        firstState = true;
+        greenState = true;
         Debug.Log(amountOfTime);
         myTransform = GetComponent<Transform>();
+        target = GameObject.FindGameObjectWithTag("Player").transform;
+        rb = GetComponent<Rigidbody>();
     }
 
     void Update()
     {
-
-
-        transform.position = Vector3.MoveTowards(transform.position, target.transform.position, 0.03f);
-
-
         timer += Time.deltaTime;
-        int seconds = (int)timer % 60;
-        Debug.Log("SECONDS = " + seconds + "amountoftime = " + amountOfTime);
+        seconds = (int)timer % 60;
 
-        //Debug.Log(amountOfTime);
-        if (seconds == amountOfTime && firstState)
+
+        if (seconds == amountOfTime && !changing && (greenState || redState))
         {
-            Debug.Log("State orange flickering for " + amountOfTime + "seconds");
-            animator.SetInteger("State", 1);
-            timer = 0;
-            seconds = 0;
-            firstState = false;
-            secondState = true;
-
+            Debug.Log("naar changing state");
+            if(greenState) animator.SetInteger("State", 1);
+            if(redState) animator.SetInteger("State", 3);
+            changingState = true;
+            changing = true;
+            ResetTimers();
         }
 
-        if (seconds == amountOfTime && secondState)
+        if (seconds == amountOfTime && changingState)
         {
-            Debug.Log("State red for" + amountOfTime + "seconds");
-            animator.SetInteger("State", 2);
-            timer = 0;
-            seconds = 0;
-            secondState = false;
-            thirdState = true;
-        }
-
-        if (seconds == amountOfTime && thirdState)
-        {
-            Debug.Log("State green for" + amountOfTime + "seconds");
-            animator.SetInteger("State", 0);
-            timer = 0;
-            seconds = 0;
-            amountOfTime = Random.Range(2, 10);
-            thirdState = false;
-            firstState = true;
+            if (greenState)
+            {
+                Debug.Log("naar red state");
+                greenState = false;
+                redState = true;
+                animator.SetInteger("State", 2);
+            }
+            else if (redState)
+            {
+                amountOfTime = Random.Range(2, 10);
+                Debug.Log("naar green state");
+                redState = false;
+                greenState = true;
+                animator.SetInteger("State", 0);
+            }
+            changingState = false;
+            changing = false;
+            ResetTimers();
         }
     }
 
+    void ResetTimers()
+    {
+        timer = 0;
+        seconds = 0;
+    }
 
+    void FixedUpdate()
+    {
+        Vector3 difference = target.transform.position - transform.position;
+        Vector3 velocity = new Vector3();
 
+        if (redState)
+        {
+            if (difference.x < minDistance || difference.z < minDistance)
+            {
+                velocity = difference * speed * 0.5f;
+            }
+            else
+            {
+                velocity = difference * speed * 1.5f;
+            }
+        } else if (greenState) {
+            if(difference.x < minDistance || difference.z < minDistance)
+            {
+                velocity = -(difference * speed * 1.5f);
+            } else
+            {
+                velocity = -(difference * speed * 0.5f);
+            }
+        }
+        
+
+        rb.velocity = new Vector3(velocity.x, rb.velocity.y, velocity.z);
+    }
 }
