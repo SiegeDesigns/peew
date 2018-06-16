@@ -5,7 +5,7 @@ using UnityEngine;
 public class GameController : MonoBehaviour {
 
     public GameObject wave;
-    public float maxX, minX, maxZ, minZ;
+    public float maxX, minX, maxY, minY;
     public int amountOfEnemies;
 
 	// Use this for initialization
@@ -18,8 +18,8 @@ public class GameController : MonoBehaviour {
         for(int i = 0; i < amountOfEnemies; i++)
         {
             //Random position to spawn at
-            Vector3 spawnPosition = new Vector3(Random.Range(minX, maxX), 0, Random.Range(minZ, maxZ)); //y is always 0
-            Quaternion spawnRotation = Quaternion.Euler(90, 0, 0);
+            Vector2 spawnPosition = new Vector3(Random.Range(minX, maxX), Random.Range(minY, maxY));
+            Quaternion spawnRotation = Quaternion.Euler(0, 0, 0);
             Instantiate(wave, spawnPosition, spawnRotation);
         }
     }

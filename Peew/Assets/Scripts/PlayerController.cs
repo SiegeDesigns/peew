@@ -10,12 +10,14 @@ public class Boundary
 
 public class PlayerController : MonoBehaviour {
     public float speed;
-    private Rigidbody rb;
     public Boundary boundary;
+
+    private Rigidbody2D rb;
+    private float movement = 0f;
 
 	// Use this for initialization
 	void Start () {
-        rb = GetComponent<Rigidbody>();
+        rb = GetComponent<Rigidbody2D>();
 
 	}
 	
@@ -26,16 +28,23 @@ public class PlayerController : MonoBehaviour {
 
     void FixedUpdate()
     {
-        float moveHorizontal = Input.GetAxis("Horizontal");
-        float moveVertical = Input.GetAxis("Vertical");
 
-        Vector3 movement = new Vector3(moveHorizontal, 0.0f, moveVertical);
-        rb.velocity = movement * speed;      
-        rb.position = new Vector3
-        (
-            Mathf.Clamp(rb.position.x, boundary.xMin, boundary.xMax),
-            0.0f,
-            Mathf.Clamp(rb.position.z, boundary.zMin, boundary.zMax)
-        );
+        Vector2 move = Vector2.zero;
+
+        move.x = Input.GetAxis("Horizontal");
+        move.y = Input.GetAxis("Vertical");
+
+        rb.velocity = new Vector2(move.x * speed, move.y * speed);
+
+        //float moveHorizontal = Input.GetAxis("Horizontal");
+        //float moveVertical = Input.GetAxis("Vertical");
+
+        //Vector2 movement = new Vector2(moveHorizontal, moveVertical);
+        //rb.velocity = movement * speed;      
+        //rb.position = new Vector2
+        //(
+        //    Mathf.Clamp(rb.position.x, boundary.xMin, boundary.xMax),            
+        //    Mathf.Clamp(rb.position.y, boundary.zMin, boundary.zMax)
+        //);
     }
 }

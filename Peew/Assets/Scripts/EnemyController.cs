@@ -4,7 +4,7 @@ public class EnemyController : MonoBehaviour
 {
 
     private Transform target;
-    private Rigidbody rb;
+    private Rigidbody2D rb;
     public Transform myTransform;
     public float speed;
     public float minDistance;
@@ -27,7 +27,7 @@ public class EnemyController : MonoBehaviour
         Debug.Log(amountOfTime);
         myTransform = GetComponent<Transform>();
         target = GameObject.FindGameObjectWithTag("Player").transform;
-        rb = GetComponent<Rigidbody>();
+        rb = GetComponent<Rigidbody2D>();
     }
 
     void Update()
@@ -77,12 +77,12 @@ public class EnemyController : MonoBehaviour
 
     void FixedUpdate()
     {
-        Vector3 difference = target.transform.position - transform.position;
-        Vector3 velocity = new Vector3();
+        Vector2 difference = target.transform.position - transform.position;
+        Vector2 velocity = new Vector2();
 
         if (redState)
         {
-            if (difference.x < minDistance || difference.z < minDistance)
+            if (difference.x < minDistance || difference.y < minDistance)
             {
                 velocity = difference * speed * 0.5f;
             }
@@ -91,7 +91,7 @@ public class EnemyController : MonoBehaviour
                 velocity = difference * speed * 1.5f;
             }
         } else if (greenState) {
-            if(difference.x < minDistance || difference.z < minDistance)
+            if(difference.x < minDistance || difference.y < minDistance)
             {
                 velocity = -(difference * speed * 1.5f);
             } else
@@ -101,6 +101,6 @@ public class EnemyController : MonoBehaviour
         }
         
 
-        rb.velocity = new Vector3(velocity.x, rb.velocity.y, velocity.z);
+        rb.velocity = new Vector2(velocity.x,velocity.y);
     }
 }
