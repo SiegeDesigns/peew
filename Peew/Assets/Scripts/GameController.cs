@@ -18,7 +18,7 @@ public class GameController : MonoBehaviour {
         for(int i = 0; i < amountOfEnemies; i++)
         {
             //Random position to spawn at
-            Vector2 spawnPosition = new Vector3(Random.Range(minX, maxX), Random.Range(minY, maxY));
+            Vector3 spawnPosition = new Vector3(Random.Range(minX, maxX), Random.Range(minY, maxY), 1);
             Quaternion spawnRotation = Quaternion.Euler(0, 0, 0);
             Instantiate(wave, spawnPosition, spawnRotation);
         }

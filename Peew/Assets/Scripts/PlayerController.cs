@@ -43,7 +43,5 @@ public class PlayerController : MonoBehaviour
         pos.y = Mathf.Clamp01(pos.y);
         if (pos.x > 0 || pos.x < 1 || pos.y > 0 || pos.y < 0)
             rb.velocity = new Vector2(move.x * speed, move.y * speed);
-
-
     }
 }
