@@ -64,7 +64,6 @@ public class CameraController : MonoBehaviour {
             b.transform.parent = cam.transform;
 
             var bc = b.AddComponent<BoxCollider2D>();
-            Debug.Log("added boxcollider2D");
             var rb = b.AddComponent<Rigidbody2D>();
             rb.isKinematic = true;
         }

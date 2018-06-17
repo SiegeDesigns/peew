@@ -6,15 +6,15 @@ public class EnemyController : MonoBehaviour
     private Transform target;
     private Rigidbody2D rb;
     public Transform myTransform;
+
     public float speed;
     public float minDistance;
 
     float timer = 0.0f;
     int seconds;
     int amountOfTime = 0;
-    bool greenState = false;
     bool changingState = false;
-    bool redState = false;
+    public bool State { get; private set; } // true = green, false = red
     bool changing = false;
     private Animator animator;
 
@@ -23,8 +23,7 @@ public class EnemyController : MonoBehaviour
     {
         animator = GetComponent<Animator>();
         amountOfTime = Random.Range(2, 10);
-        greenState = true;
-        Debug.Log(amountOfTime);
+        State = true;
         myTransform = GetComponent<Transform>();
         target = GameObject.FindGameObjectWithTag("Player").transform;
         rb = GetComponent<Rigidbody2D>();
@@ -36,10 +35,10 @@ public class EnemyController : MonoBehaviour
         seconds = (int)timer % 60;
 
 
-        if (seconds == amountOfTime && !changing && (greenState || redState))
+        if (seconds == amountOfTime && !changing && State)
         {
-            if (greenState) animator.SetInteger("State", 1);
-            if (redState) animator.SetInteger("State", 3);
+            if (State) animator.SetInteger("State", 1);
+            if (!State) animator.SetInteger("State", 3);
             changingState = true;
             changing = true;
             ResetTimers();
@@ -47,17 +46,15 @@ public class EnemyController : MonoBehaviour
 
         if (seconds == amountOfTime && changingState)
         {
-            if (greenState)
+            if (State)
             {
-                greenState = false;
-                redState = true;
+                State = false;
                 animator.SetInteger("State", 2);
             }
-            else if (redState)
+            else
             {
                 amountOfTime = Random.Range(2, 10);
-                redState = false;
-                greenState = true;
+                State = true;
                 animator.SetInteger("State", 0);
             }
             changingState = false;
@@ -78,11 +75,11 @@ public class EnemyController : MonoBehaviour
         Vector2 velocity = new Vector2();
         difference.Normalize();
 
-        if (redState) {
+        if (!State) {
             velocity = difference * speed;
             rb.velocity = new Vector2(velocity.x, velocity.y);
         }
-        else if (greenState) {
+        else {
             rb.velocity = new Vector2(Random.Range(-3, 3), Random.Range(-3, 3));
         }
     }
