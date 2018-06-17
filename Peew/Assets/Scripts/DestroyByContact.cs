@@ -12,13 +12,17 @@ public class DestroyByContact : MonoBehaviour
 
     void Start()
     {
-        GameObject enemyObject = GameObject.FindGameObjectWithTag("EnemyController");
-        if(enemyObject != null)
+        GameObject enemyObject = GameObject.FindGameObjectWithTag("Enemy");
+
+       
+        if (enemyObject != null)
         {
             enemyController = gameObject.GetComponent<EnemyController>();
             state = enemyController.State;
+
         }
-        if(enemyObject == null)
+
+        if (enemyObject == null)
         {
             Debug.Log("Cannot find 'EnemyController' script");
         }
@@ -36,6 +40,8 @@ public class DestroyByContact : MonoBehaviour
 
     void OnCollisionEnter2D(Collision2D coll)
     {
+        Start();
+
         state = enemyController.State;
         if (coll.gameObject.tag == "Player" && !state)
             Debug.Log(state ? "groen" : "rood");
