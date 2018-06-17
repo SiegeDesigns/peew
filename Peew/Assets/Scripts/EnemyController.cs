@@ -38,7 +38,7 @@ public class EnemyController : MonoBehaviour
         seconds = (int)timer % 60;
 
 
-        if (seconds == amountOfTime && !changing && State)
+        if (seconds == amountOfTime && !changing)
         {
             if (State) animator.SetInteger("State", 1);
             if (!State) animator.SetInteger("State", 3);
@@ -47,7 +47,7 @@ public class EnemyController : MonoBehaviour
             ResetTimers();
         }
 
-        if (seconds == amountOfTime && changingState)
+        if (seconds == 2 && changingState)
         {
             if (State)
             {
