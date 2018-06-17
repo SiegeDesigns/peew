@@ -134,6 +134,7 @@ MonoBehaviour:
   myTransform: {fileID: 4748321915847280}
   speed: 2
   minDistance: 2
+  accelerationTime: 0.5
 --- !u!212 &212689268393522906
 SpriteRenderer:
   m_ObjectHideFlags: 1
