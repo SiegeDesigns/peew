@@ -29,10 +29,28 @@ public class GameController : MonoBehaviour {
     //spawns waves of enemies
     void SpawnWaves()
     {
+        Debug.Log("Screen width: " + Screen.width);
+        Debug.Log("Screen height: " + Screen.height);
+        List<Vector3> enemyList = new List<Vector3>();
+        Vector3 spawnPosition = new Vector3();
+        bool overlap;
+
         for (int i = 0; i < amountOfEnemies; i++)
         {
             //Random position to spawn at
-            Vector3 spawnPosition = new Vector3(Random.Range(minX, maxX), Random.Range(minY, maxY), 1);
+            //if(enemyList.Count == 0) spawnPosition = new Vector3(Random.Range(minX, maxX), Random.Range(minY, maxY), 1);
+            //else
+            //{
+            //    spawnPosition = new Vector3(Random.Range(minX, maxX), Random.Range(minY, maxY), 1);
+            //    overlap = Physics2D.OverlapCircle(spawnPosition, 0.1f);
+
+            //    while (overlap)
+            //    {
+            //        spawnPosition = new Vector3(Random.Range(minX, maxX), Random.Range(minY, maxY), 1);
+            //        overlap = Physics2D.OverlapArea(enemyList[i], spawnPosition);
+            //    }
+            //}
+            spawnPosition = new Vector3(Random.Range(minX, maxX), Random.Range(minY, maxY), 1);
             Quaternion spawnRotation = Quaternion.Euler(0, 0, 0);
             Instantiate(wave, spawnPosition, spawnRotation);
         }

@@ -14,7 +14,6 @@ public class PlayerController : MonoBehaviour
     public Boundary boundary;
 
     private Rigidbody2D rb;
-    private float movement = 0f;
     private Transform tf;
 
     // Use this for initialization

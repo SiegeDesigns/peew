@@ -9,6 +9,9 @@ public class EnemyController : MonoBehaviour
 
     public float speed;
     public float minDistance;
+    public float accelerationTime = .5f;
+    private Vector2 movement;
+    private float timeLeft;
 
     float timer = 0.0f;
     int seconds;
@@ -61,6 +64,14 @@ public class EnemyController : MonoBehaviour
             changing = false;
             ResetTimers();
         }
+
+        timeLeft -= Time.deltaTime;
+        if (timeLeft <= 0)
+        {
+            movement = new Vector2(Random.Range(-1f, 1f), Random.Range(-1f, 1f));
+            rb.velocity = rb.velocity * 0.5f;
+            timeLeft += accelerationTime;
+        }
     }
 
     void ResetTimers()
@@ -80,7 +91,7 @@ public class EnemyController : MonoBehaviour
             rb.velocity = new Vector2(velocity.x, velocity.y);
         }
         else {
-            rb.velocity = new Vector2(Random.Range(-3, 3), Random.Range(-3, 3));
+            rb.AddForce(movement * 1.2f); //speed
         }
     }
 }
