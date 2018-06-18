@@ -5,8 +5,9 @@ public class EnemyController : MonoBehaviour
 
     private Transform target;
     private Rigidbody2D rb;
-    public Transform myTransform;
+    private BoxCollider2D bc2d;
 
+    public Transform myTransform;
     public float speed;
     public float minDistance;
     public float accelerationTime = .5f;
@@ -25,6 +26,7 @@ public class EnemyController : MonoBehaviour
     void Start()
     {
         animator = GetComponent<Animator>();
+        bc2d = GetComponent<BoxCollider2D>();
         amountOfTime = Random.Range(2, 10);
         if (this.name.Contains("Red"))
         {
@@ -34,6 +36,8 @@ public class EnemyController : MonoBehaviour
         {
             State = true;
         }
+
+        bc2d.enabled = false;
 
         myTransform = GetComponent<Transform>();
         target = GameObject.FindGameObjectWithTag("Player").transform;
@@ -45,6 +49,10 @@ public class EnemyController : MonoBehaviour
         timer += Time.deltaTime;
         seconds = (int)timer % 60;
 
+        if (!animator.GetCurrentAnimatorStateInfo(0).IsName("Spawning"))
+        {
+            bc2d.enabled = true;      
+        }
 
         if (seconds == amountOfTime && !changing)
         {

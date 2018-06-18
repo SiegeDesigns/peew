@@ -159,7 +159,7 @@ MonoBehaviour:
   minX: -2.5
   maxY: 4.5
   minY: -4.5
-  amountOfEnemies: 10
+  amountOfEnemies: 5
   scoreText: {fileID: 0}
   score: 0
 --- !u!1 &212769836
