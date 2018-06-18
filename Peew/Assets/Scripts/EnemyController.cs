@@ -19,14 +19,22 @@ public class EnemyController : MonoBehaviour
     bool changingState = false;
     public bool State { get; private set; } // true = green, false = red
     bool changing = false;
-    private Animator animator;
+    public Animator animator { get; private set; }
 
     // Use this for initialization
     void Start()
     {
         animator = GetComponent<Animator>();
         amountOfTime = Random.Range(2, 10);
-        State = true;
+        if (this.name.Contains("Red"))
+        {
+            State = false;
+        }
+        else
+        {
+            State = true;
+        }
+
         myTransform = GetComponent<Transform>();
         target = GameObject.FindGameObjectWithTag("Player").transform;
         rb = GetComponent<Rigidbody2D>();
@@ -82,16 +90,23 @@ public class EnemyController : MonoBehaviour
 
     void FixedUpdate()
     {
-        Vector2 difference = target.transform.position - transform.position;
-        Vector2 velocity = new Vector2();
-        difference.Normalize();
+        if (!animator.GetCurrentAnimatorStateInfo(0).IsName("Spawning"))
+        {
 
-        if (!State) {
-            velocity = difference * speed;
-            rb.velocity = new Vector2(velocity.x, velocity.y);
-        }
-        else {
-            rb.AddForce(movement * 1.2f); //speed
+
+            Vector2 difference = target.transform.position - transform.position;
+            Vector2 velocity = new Vector2();
+            difference.Normalize();
+
+            if (!State)
+            {
+                velocity = difference * speed;
+                rb.velocity = new Vector2(velocity.x, velocity.y);
+            }
+            else
+            {
+                rb.AddForce(movement * 1.2f); //speed
+            }
         }
     }
 }

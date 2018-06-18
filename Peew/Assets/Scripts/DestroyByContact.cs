@@ -31,13 +31,14 @@ public class DestroyByContact : MonoBehaviour
     {
         // Player hit a red enemy, gets destroyed
         state = enemyController.State;
-        if (coll.gameObject.tag == "Player" && !state)
+        Animator animator = enemyController.animator;
+        if (coll.gameObject.tag == "Player" && !state && !animator.GetCurrentAnimatorStateInfo(0).IsName("Spawning"))
         {
             Destroy(coll.gameObject);
         }
 
         // Player hit a green enemy, earns points
-        if (coll.gameObject.tag == "Player" && state)
+        if (coll.gameObject.tag == "Player" && state && !animator.GetCurrentAnimatorStateInfo(0).IsName("Spawning"))
         {
             gameController.AddScore(scoreValue);
             Destroy(gameObject);

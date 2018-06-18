@@ -14,14 +14,21 @@ public class GameController : MonoBehaviour
     //UI
     public Text scoreText;
     public int score;
+    List<GameObject> enemies;
 
     // Use this for initialization
     void Start()
     {
         scoreText = GameObject.FindGameObjectWithTag("Score Text").GetComponent<Text>();
         score = 0;
+
+        enemies = new List<GameObject> {
+            greenEnemy, redEnemy
+        };
+
         UpdateScore();
         SpawnWaves();
+       
     }
 
     // Update is called once per frame
@@ -35,9 +42,12 @@ public class GameController : MonoBehaviour
     {
         bool overlap = false;
         Vector3 spawnPosition = new Vector3();
+        
+        
 
         for (int i = 0; i < amountOfEnemies; i++)
         {
+
             spawnPosition = new Vector3(Random.Range(minX, maxX), Random.Range(minY, maxY), 1);
             overlap = Physics2D.OverlapCircle(spawnPosition, 1);
             while (overlap)
@@ -46,8 +56,13 @@ public class GameController : MonoBehaviour
                 overlap = Physics2D.OverlapCircle(spawnPosition, 0.5f);
             }
             Quaternion spawnRotation = Quaternion.Euler(0, 0, 0);
-            Instantiate(greenEnemy, spawnPosition, spawnRotation);
+
+            Instantiate(enemies[Random.Range(0, enemies.Count)], spawnPosition, spawnRotation);
+
         }
+
+        //spawn enemie instead of loading circle
+
     }
 
     // Add new score
