@@ -37,7 +37,7 @@ public class EnemyController : MonoBehaviour
             State = true;
         }
 
-        bc2d.enabled = false;
+        bc2d.isTrigger = true;
 
         myTransform = GetComponent<Transform>();
         target = GameObject.FindGameObjectWithTag("Player").transform;
@@ -51,7 +51,7 @@ public class EnemyController : MonoBehaviour
 
         if (!animator.GetCurrentAnimatorStateInfo(0).IsName("Spawning"))
         {
-            bc2d.enabled = true;      
+            bc2d.isTrigger = false;      
         }
 
         if (seconds == amountOfTime && !changing)

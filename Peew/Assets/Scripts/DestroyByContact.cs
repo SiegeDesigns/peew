@@ -5,16 +5,19 @@ using UnityEngine;
 public class DestroyByContact : MonoBehaviour
 {
 
+    public int scoreValue;
+
     private GameController gameController;
     private EnemyController enemyController;
-    public int scoreValue;
     private bool state; // true = green, false = red
-
+    private bool playerInEnemy = false;
+    private Animator animator;
     void Start()
     {
 
         enemyController = gameObject.GetComponent<EnemyController>();
         state = enemyController.State;
+        animator = enemyController.animator;
 
         GameObject gameControllerObject = GameObject.FindGameObjectWithTag("GameController");
         if (gameControllerObject != null)
@@ -27,11 +30,20 @@ public class DestroyByContact : MonoBehaviour
         }
     }
 
+    void Update()
+    {
+        if (playerInEnemy && state && !animator.GetCurrentAnimatorStateInfo(0).IsName("Spawning"))
+        {
+            gameController.AddScore(scoreValue);
+            Destroy(gameObject);
+        }
+    }
+
     void OnCollisionEnter2D(Collision2D coll)
     {
         // Player hit a red enemy, gets destroyed
         state = enemyController.State;
-        Animator animator = enemyController.animator;
+     
         if (coll.gameObject.tag == "Player" && !state && !animator.GetCurrentAnimatorStateInfo(0).IsName("Spawning"))
         {
             Destroy(coll.gameObject);
@@ -43,5 +55,16 @@ public class DestroyByContact : MonoBehaviour
             gameController.AddScore(scoreValue);
             Destroy(gameObject);
         }
+    }
+
+    void OnTriggerEnter2D(Collider2D collision)
+    {
+        Debug.Log("trigger");   
+        playerInEnemy = true; 
+    }
+
+    void OnTriggerExit2D(Collider2D collision)
+    {
+        playerInEnemy = false;
     }
 }
