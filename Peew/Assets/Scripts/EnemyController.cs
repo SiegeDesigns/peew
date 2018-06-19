@@ -22,9 +22,6 @@ public class EnemyController : MonoBehaviour
     bool changing = false;
     public Animator animator { get; private set; }
 
-    private bool isTriggering = false;
-
-
     // Use this for initialization
     void Start()
     {
@@ -40,7 +37,7 @@ public class EnemyController : MonoBehaviour
             State = true;
         }
 
-        bc2d.isTrigger = true;
+        bc2d.enabled = false;
 
         myTransform = GetComponent<Transform>();
         target = GameObject.FindGameObjectWithTag("Player").transform;
@@ -52,10 +49,9 @@ public class EnemyController : MonoBehaviour
         timer += Time.deltaTime;
         seconds = (int)timer % 60;
 
-        if (!animator.GetCurrentAnimatorStateInfo(0).IsName("Spawning") && !isTriggering)
+        if (!animator.GetCurrentAnimatorStateInfo(0).IsName("Spawning"))
         {
-
-            bc2d.isTrigger = false;      
+            bc2d.enabled = true;      
         }
 
         if (seconds == amountOfTime && !changing)
@@ -120,15 +116,5 @@ public class EnemyController : MonoBehaviour
                 rb.AddForce(movement * 1.2f); //speed
             }
         }
-    }
-
-    void OnTriggerEnter2D(Collider2D collision)
-    {
-        isTriggering = true;
-    }
-
-    private void OnTriggerExit2D(Collider2D collision)
-    {
-        isTriggering = false;
     }
 }

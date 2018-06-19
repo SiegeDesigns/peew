@@ -314,12 +314,7 @@ MonoBehaviour:
   minX: -2.5
   maxY: 4.5
   minY: -4.5
-<<<<<<< HEAD
-  amountOfEnemies: 3
-  scoreText: {fileID: 0}
-=======
   amountOfEnemies: 5
->>>>>>> 47e2ef40573c327f9517d408be473e5622d41569
   score: 0
 --- !u!1 &212769836
 GameObject:
