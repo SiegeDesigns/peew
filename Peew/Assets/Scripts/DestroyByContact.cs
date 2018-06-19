@@ -5,16 +5,20 @@ using UnityEngine;
 public class DestroyByContact : MonoBehaviour
 {
 
+    public int scoreValue;
+
     private GameController gameController;
     private EnemyController enemyController;
-    public int scoreValue;
     private bool state; // true = green, false = red
+    private Animator animator { get; set; }
+    private bool playerIsOnEnemyWhileSpawning = false;
 
     void Start()
     {
 
         enemyController = gameObject.GetComponent<EnemyController>();
         state = enemyController.State;
+        animator = GetComponent<Animator>();
 
         GameObject gameControllerObject = GameObject.FindGameObjectWithTag("GameController");
         if (gameControllerObject != null)
@@ -25,6 +29,15 @@ public class DestroyByContact : MonoBehaviour
         {
             Debug.Log("Cannot find 'GameController' script");
         }
+    }
+
+    void Update()
+    {
+        //if (!animator.GetCurrentAnimatorStateInfo(0).IsName("Spawning") && state && playerIsOnEnemyWhileSpawning)
+        //{
+        //    gameController.AddScore(scoreValue);
+        //    Destroy(gameObject);
+        //}
     }
 
     void OnCollisionEnter2D(Collision2D coll)
@@ -44,4 +57,16 @@ public class DestroyByContact : MonoBehaviour
             Destroy(gameObject);
         }
     }
+
+    //void OnTriggerEnter2D(Collider2D collision)
+    //{
+    //    playerIsOnEnemyWhileSpawning = true;
+    //}
+
+    //void OnTriggerExit2D(Collider2D collision)
+    //{
+    //    playerIsOnEnemyWhileSpawning = false;
+    //}
+
+
 }
