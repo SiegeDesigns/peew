@@ -2,6 +2,7 @@
 using UnityEngine.UI;
 using System.Collections.Generic;
 using UnityEngine;
+using TMPro;
 
 public class GameController : MonoBehaviour
 {
@@ -12,14 +13,14 @@ public class GameController : MonoBehaviour
     public int amountOfEnemies;
 
     //UI
-    public Text scoreText;
+    private TMP_Text scoreText;
     public int score;
     List<GameObject> enemies;
 
     // Use this for initialization
     void Start()
     {
-        scoreText = GameObject.FindGameObjectWithTag("Score Text").GetComponent<Text>();
+        scoreText = GameObject.FindGameObjectWithTag("Score Text").GetComponent<TMP_Text>();
         score = 0;
 
         enemies = new List<GameObject> {
